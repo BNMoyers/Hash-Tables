@@ -51,7 +51,8 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        new_key = self._hash_mod(key)
+
 
 
 
@@ -84,7 +85,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        new_capacity = self.capacity * 2
+        new_storage = [None] * new_capacity
+        for i in range(self.capacity):
+            new_storage[i] = self.storage[i]
+        
+        self.capacity = new_capacity
+        self.storage = new_storage
 
 
 
