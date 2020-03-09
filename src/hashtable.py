@@ -6,6 +6,7 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
+        
 
 class HashTable:
     '''
@@ -15,6 +16,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0
 
 
     def _hash(self, key):
@@ -52,7 +54,17 @@ class HashTable:
         Fill this in.
         '''
         new_key = self._hash_mod(key)
+        print(new_key)
 
+        if new_key >= self.capacity:
+            self.resize()
+        
+        if new_key > 1:
+            for i in range(self.count, new_key, -1):
+                self.storage[i] = self.storage[i -1]
+
+        self.count +=1
+        self.storage[new_key] = value
 
 
 
@@ -85,6 +97,7 @@ class HashTable:
 
         Fill this in.
         '''
+        # without adding a count variable to table
         new_capacity = self.capacity * 2
         new_storage = [None] * new_capacity
         for i in range(self.capacity):
@@ -92,6 +105,12 @@ class HashTable:
         
         self.capacity = new_capacity
         self.storage = new_storage
+
+        #using count
+        # self.capacity *= 2
+        # new_storage = [None] * self.capacity
+        # for i in range(self.count):
+        #     new_storage[i] = self.storage[i]
 
 
 
