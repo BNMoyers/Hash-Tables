@@ -1,3 +1,4 @@
+# 
 # '''
 # Linked List hash table key/value pair
 # '''
@@ -6,6 +7,7 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
+        
 
 class HashTable:
     '''
@@ -51,9 +53,22 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        curr_node = self.storage[index]
+        last_node = None
 
-
+        if curr_node is None:
+            curr_node = LinkedPair(key, value)
+        
+        else:
+            while curr_node:
+                if curr_node.key == key:
+                    curr_node.value == value
+                    return
+                if curr_node.next == None:
+                    break
+                curr_node = curr_node.next
+            curr_node.next = LinkedPair(key, value)
 
     def remove(self, key):
         '''
@@ -63,7 +78,21 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        curr_node = self.storage[index]
+        last_node = None
+        
+        while curr_node:
+            if curr_node.key == key:
+                if last_node:
+                    last_node.next = curr_node.next
+                else:
+                    curr_node = None
+                return
+
+            last_node = curr_node
+            curr_node = last_node.next
+        print("Warning: key not found") 
 
 
     def retrieve(self, key):
@@ -74,7 +103,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        curr_node = self.storage[index]
+
+        while curr_node:
+            if curr_node.key == key:
+                return curr_node.value
+            else:
+                curr_node = curr_node.next
+        return None
+
 
 
     def resize(self):
@@ -84,9 +122,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        old_storage = self.storage.copy()
+        self.capacity = self.capacity * 2
+        self.storage = [None] * self.capacity
+        
+        for curr_node in old_storage:
+            while curr_node:   
+                self.insert(curr_node.key, curr_node.value)
+                curr_node = curr_node.next
 
-
+                
 
 if __name__ == "__main__":
     ht = HashTable(2)
